@@ -2,6 +2,8 @@ const { authUser } = require('./Session/Login.controller');
 const { registerUser } = require('./Session/Signup.controller');
 const {
   createTransaction,
+  editTransaction,
+  deleteTransaction,
   getTransactionHistory,
 } = require('./transaccion/transaction.controller');
 const { getUsers } = require('./user/user.controller');
@@ -11,5 +13,7 @@ module.exports = {
   authUser,
   registerUser,
   createTransaction,
+  editTransaction,
+  deleteTransaction,
   getTransactionHistory,
 };

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const regexProvider = require('../../../regex/regex')
+const pagination = require('mongoose-paginate-v2')
 
 const transactionSchema = new mongoose.Schema({
 
@@ -25,5 +25,5 @@ const transactionSchema = new mongoose.Schema({
         default: Date.now
     }
 })
-
+transactionSchema.plugin(pagination)
 module.exports = mongoose.model('Transaction', transactionSchema, 'transactions')

@@ -3,7 +3,7 @@ const bcryptjs = require('bcryptjs');
 
 const getUser = async () => {
     try {
-        const response = await User.find({}).populate('transactions');
+        const response = await User.find({}).populate('history');
         return response;
     } catch (error) {
         throw error;
@@ -12,7 +12,7 @@ const getUser = async () => {
 
 const getInfoUser = async (id) => {
     try {
-        const response = await User.findById(id).populate('transactions');
+        const response = await User.findById(id).populate('history');
         return response;
     } catch (error) {
         throw error;

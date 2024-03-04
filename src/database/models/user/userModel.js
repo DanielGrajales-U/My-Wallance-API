@@ -29,9 +29,9 @@ const userSchema = new mongoose.Schema({
     default: 0  
   },
   history: {
-    type: mongoose.Schema.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Transaction'
-  }
+  },
 });
 
 module.exports = mongoose.model('User', userSchema, 'user')
