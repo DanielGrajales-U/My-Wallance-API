@@ -18,7 +18,8 @@ const authUser = async (req, res) => {
             id: user._id,
             userName: user.userName,
             email: user.email,
-            history: user.history // Cambio: Devolvemos el historial en lugar de los tableros
+            amount: user.amount,
+            history: user.history
         };
 
         const token = jwt.sign(tokenData, 'my_secret_key', { expiresIn: '24h' });
