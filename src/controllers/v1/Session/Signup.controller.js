@@ -5,6 +5,7 @@ const registerUser = async (req, res) => {
   const { userName, password, email } = req.body;
   try {
     const existingUser = await verifyExistUser(email);
+    
     if (existingUser) {
       return res.status(409).json(errorHandlers().dataAlreadyExist('User already exists.'));
     }

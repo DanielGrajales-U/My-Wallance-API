@@ -5,13 +5,11 @@ const userModel = require('../../../database/models/user/userModel');
 // Controlador para crear una nueva transacción
 const createTransaction = async (req, res) => {
   try {
-    // Extraer el ID del usuario del middleware ensureToken
     const userId = req.user._id;
-    // Datos de la transacción desde el cuerpo de la solicitud
     const { amount, description } = req.body;
 
-    // Crear la transacción utilizando el ID del usuario
     const newTransaction = await transactionService.createTransaction(userId, amount, description);
+
     res.status(200).json({
       success: true,
       message: 'Transaction created successfully.',
@@ -30,8 +28,6 @@ const editTransaction = async (req, res) => {
     // Extraer el ID de la transacción y los datos actualizados del cuerpo de la solicitud
     const { transactionId } = req.params;
     const newData = req.body;
-
-    // Editar la transacción utilizando el ID del usuario y el ID de la transacción
     const updatedTransaction = await transactionService.editTransaction(
       userId,
       transactionId,

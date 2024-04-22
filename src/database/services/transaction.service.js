@@ -1,3 +1,4 @@
+const { errorHandlers } = require('controllers/v1/handlers/errorHandlers');
 const Transaction = require('../models/transactions/transaction.model');
 const User = require('../models/user/userModel');
 
@@ -7,10 +8,9 @@ const createTransaction = async (userId, amount, description) => {
     // Verificar que el usuario exista
     const user = await User.findById(userId);
     if (!user) {
-      throw new Error('User not found');
+      return res.status(403).json(errorHandlers().insufficientPermissions("Forbidden"));
     }
 
-    // Crear la transacción
     const newTransaction = new Transaction({
       userId,
       amount,
@@ -18,7 +18,6 @@ const createTransaction = async (userId, amount, description) => {
     });
     await newTransaction.save();
 
-    // Actualizar el saldo del usuario
     const updatedUser = await User.findByIdAndUpdate(userId, { $inc: { amount } });
     if (!updatedUser) {
       throw new Error('Failed to update user balance');
@@ -33,7 +32,11 @@ const createTransaction = async (userId, amount, description) => {
 const editTransaction = async (userId, transactionId, newData) => {
   try {
     const user = await User.findById(userId)
-    // Verificar que la transacción pertenezca al usuario antes de editarla
+    
+    if (!user) {
+      return res.status(403).json(errorHandlers().insufficientPermissions("Forbidden"));
+    }
+
     const transaction = await Transaction.findOne({ _id: transactionId, userId: userId });
     if (!transaction) {
       throw new Error('Transaction not found for the user.');
@@ -55,7 +58,11 @@ const editTransaction = async (userId, transactionId, newData) => {
 const deleteTransaction = async (userId, transactionId) => {
   try {
     const user = await User.findById(userId)
-    // Verificar que la transacción pertenezca al usuario antes de eliminarla
+
+    if (!user) {
+      return res.status(403).json(errorHandlers().insufficientPermissions("Forbidden"));
+    }
+    
     const transaction = await Transaction.findOne({ _id: transactionId, userId: userId });
     console.log(transaction);
     if (!transaction) {
@@ -65,7 +72,6 @@ const deleteTransaction = async (userId, transactionId) => {
     user.amount -= transaction.amount;
     await user.save()
 
-    // Eliminar la transacción
     await Transaction.findByIdAndDelete(transactionId);
   } catch (error) {
     throw error;

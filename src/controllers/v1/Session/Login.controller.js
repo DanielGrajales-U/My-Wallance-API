@@ -8,10 +8,10 @@ const authUser = async (req, res) => {
 
         const user = await getUserAuth(email, password);
         if (!user) {
-            return res.status(409).json(errorHandlers().functionNotFound("User does not exist."));
+            return res.status(409).json(errorHandlers().validationError("User does not exist."));
         }
         if (!user.confirmPwd) {
-            return res.status(403).json(errorHandlers().functionNotFound("Incorrect password."));
+            return res.status(403).json(errorHandlers().invalidData("Email or password is not correct."));
         }
 
         const tokenData = {
