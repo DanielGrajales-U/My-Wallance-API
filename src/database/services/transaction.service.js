@@ -1,11 +1,10 @@
-const { errorHandlers } = require('controllers/v1/handlers/errorHandlers');
+const { errorHandlers } = require('../../controllers/v1/handlers/errorHandlers');
 const Transaction = require('../models/transactions/transaction.model');
 const User = require('../models/user/userModel');
 
 // Crear una nueva transacción
 const createTransaction = async (userId, amount, description) => {
   try {
-    // Verificar que el usuario exista
     const user = await User.findById(userId);
     if (!user) {
       return res.status(403).json(errorHandlers().insufficientPermissions("Forbidden"));
